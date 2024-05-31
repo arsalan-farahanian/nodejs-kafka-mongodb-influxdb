@@ -20,6 +20,9 @@ interface ConnectionModel extends Model<IConnection> {
     connections: HydratedDocument<IConnection>[];
   }>;
   newConnection(userId: Types.ObjectId): Promise<HydratedDocument<IConnection>>;
+  deleteConnection(
+    connectionName: string
+  ): Promise<HydratedDocument<IConnection>>;
 }
 
 const connectionSchema = new Schema<IConnection, ConnectionModel>(
@@ -45,6 +48,7 @@ const connectionSchema = new Schema<IConnection, ConnectionModel>(
   }
 );
 
+//retreiving all connections of a user
 connectionSchema.statics.getConnections = async function (
   userId: Types.ObjectId
 ) {
@@ -69,6 +73,12 @@ connectionSchema.statics.newConnection = async function (
   const connectionName = `connection_${base64Uuid}`;
 
   return this.create({ user: userId, connectionName });
+};
+
+connectionSchema.statics.deleteConnection = async function (
+  connectionName: string
+) {
+  return await this.deleteOne({ connectionName }).exec();
 };
 
 export default model<IConnection, ConnectionModel>(

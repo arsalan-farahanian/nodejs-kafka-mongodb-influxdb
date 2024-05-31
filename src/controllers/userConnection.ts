@@ -45,3 +45,22 @@ export async function connection_post(
     console.log(error);
   }
 }
+
+export async function connection_delete(
+  req: Request,
+  res: Response<JSONResponseFormat>,
+  next: NextFunction
+) {
+  const connectionName = req.params.connectionName;
+  try {
+    await Connection.deleteConnection(connectionName);
+    res.status(200).json({
+      success: true,
+      message: "Connection deleted",
+      data: null,
+      pagination: null,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}

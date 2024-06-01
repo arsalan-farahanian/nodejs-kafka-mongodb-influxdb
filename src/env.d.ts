@@ -26,7 +26,7 @@ declare global {
     } | null;
     error?: {
       code: number;
-      message: string[];
+      body: [{ [keys: string]: string | number }];
     };
   }
 }

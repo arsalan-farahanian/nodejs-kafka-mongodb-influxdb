@@ -1,10 +1,14 @@
-import { Schema, model } from "mongoose";
+import { Schema, model, Model, Types } from "mongoose";
 
 interface IUser {
   username: string;
 }
 
-const userSchema = new Schema<IUser>(
+interface UserModel extends Model<IUser> {
+  userExists(userId: Types.ObjectId): Promise<boolean>;
+}
+
+const userSchema = new Schema<IUser, UserModel>(
   {
     username: {
       type: String,
@@ -20,4 +24,11 @@ const userSchema = new Schema<IUser>(
   }
 );
 
-export default model<IUser>("User", userSchema);
+userSchema.statics.userExists = async function (userId: Types.ObjectId) {
+  const user = await this.findById(userId);
+  if (!user) {
+    return false;
+  }
+  return true;
+};
+export default model<IUser, UserModel>("User", userSchema);

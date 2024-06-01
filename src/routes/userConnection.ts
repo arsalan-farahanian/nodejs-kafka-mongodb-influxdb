@@ -6,6 +6,7 @@ import {
   connection_get,
   connection_post,
   connection_delete,
+  connection_update,
 } from "../controllers/userConnection";
 
 export default function () {
@@ -16,7 +17,7 @@ export default function () {
   router.get("/", connection_get);
   router.post("/", connection_post); //create a new connection
   router.delete("/:connectionName", connection_delete); // delete a connection;
-  // router.put("/"); //edit a connection
+  router.put("/:connectionName", connection_update); //edit a connection
 
   return router;
 }

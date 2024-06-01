@@ -23,6 +23,10 @@ interface ConnectionModel extends Model<IConnection> {
   deleteConnection(
     connectionName: string
   ): Promise<HydratedDocument<IConnection>>;
+  updateConnection(
+    connectionName: string,
+    updateFields: { [key: string]: string | number | boolean }
+  ): Promise<HydratedDocument<IConnection>>;
 }
 
 const connectionSchema = new Schema<IConnection, ConnectionModel>(
@@ -79,6 +83,15 @@ connectionSchema.statics.deleteConnection = async function (
   connectionName: string
 ) {
   return await this.deleteOne({ connectionName }).exec();
+};
+
+connectionSchema.statics.updateConnection = async function (
+  connectionName: string,
+  updateFields: { [key: string]: string | number | boolean }
+) {
+  return await this.findOneAndUpdate({ connectionName }, updateFields, {
+    new: true, // this returns the document after update was applied
+  });
 };
 
 export default model<IConnection, ConnectionModel>(

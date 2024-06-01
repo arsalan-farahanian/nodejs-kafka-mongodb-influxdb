@@ -64,3 +64,26 @@ export async function connection_delete(
     console.log(error);
   }
 }
+
+export async function connection_update(
+  req: Request,
+  res: Response<JSONResponseFormat>,
+  next: NextFunction
+) {
+  const connectionName = req.params.connectionName;
+  const isActive = req.query.isActive as string;
+
+  try {
+    const connection = await Connection.updateConnection(connectionName, {
+      isActive: isActive.trim().toLowerCase() === "true",
+    });
+    res.status(200).json({
+      success: true,
+      message: "Connection updated",
+      data: connection,
+      pagination: null,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}

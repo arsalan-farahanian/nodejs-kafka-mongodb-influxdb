@@ -6,6 +6,10 @@ declare global {
 
       //MONGODB
       MONGODB_URI: string;
+
+      //SSL Certificates
+      SSL_KEY_PATH: string;
+      SSL_CERT_PATH: string;
     }
   }
 

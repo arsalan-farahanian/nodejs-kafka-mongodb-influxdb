@@ -1,3 +1,5 @@
+import fs from "node:fs";
+import https from "node:https";
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
@@ -16,6 +18,16 @@ if (process.env.NODE_ENV.trim() === "development") {
 const SERVER_PORT = process.env.SERVER_PORT;
 const MONGODB_URI = process.env.MONGODB_URI;
 
+const SSL_KEY_PATH = process.env.SSL_KEY_PATH;
+const SSL_CERT_PATH = process.env.SSL_CERT_PATH;
+
+const SSL_KEY = fs.readFileSync(SSL_KEY_PATH, "utf8");
+const SSL_CERT = fs.readFileSync(SSL_CERT_PATH, "utf8");
+const credentials: https.ServerOptions = {
+  key: SSL_KEY,
+  cert: SSL_CERT,
+};
+
 const app = express();
 app.disable("x-powered-by");
 app.use(express.json());
@@ -26,6 +38,7 @@ mongoose.connect(MONGODB_URI).then(() => {
   console.log("MONGODB CONNECTION ESTABLISHED");
 });
 
-app.listen(SERVER_PORT, () => {
+const server = https.createServer(credentials, app);
+server.listen(SERVER_PORT, () => {
   console.log(`Express running on PORT->${SERVER_PORT}`);
 });

@@ -39,7 +39,6 @@ export async function connection_post(
       success: true,
       message: "Connection created",
       data: connection,
-      pagination: null,
     });
   } catch (error) {
     console.log(error);
@@ -58,7 +57,6 @@ export async function connection_delete(
       success: true,
       message: "Connection deleted",
       data: null,
-      pagination: null,
     });
   } catch (error) {
     console.log(error);
@@ -81,7 +79,6 @@ export async function connection_update(
       success: true,
       message: "Connection updated",
       data: connection,
-      pagination: null,
     });
   } catch (error) {
     console.log(error);

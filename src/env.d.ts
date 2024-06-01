@@ -13,7 +13,7 @@ declare global {
     success: boolean;
     message: string;
     data: [] | {} | null;
-    pagination: {
+    pagination?: {
       limit: number;
       offset: number;
       currentPage: number;

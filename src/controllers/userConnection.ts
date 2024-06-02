@@ -12,13 +12,25 @@ export async function connection_get(
   //converting string to mongoose ObjectId
   const userId = new Types.ObjectId(req.header("USER_ID") as string);
 
+  let page: number = req.query.page ? Number(req.query.page) : 1;
+  let limit: number = req.query.limit ? Number(req.query.limit) : 10;
+
+  //if the casting resulted in NaN
+  page = isNaN(page) ? 1 : page;
+  limit = isNaN(limit) ? 10 : limit;
+
   try {
-    const data = await Connection.getConnections(userId);
+    const data = await Connection.getConnections(userId, page, limit);
     res.status(200).json({
       success: true,
       message: "Successful Operation",
       data: data.connections.length > 0 ? data.connections : null,
-      pagination: null,
+      pagination: {
+        currentPage: page,
+        limit,
+        totalItems: data.totalConnections,
+        totalPages: Math.ceil(data.totalConnections / limit),
+      },
     });
   } catch (error) {
     console.log(error);

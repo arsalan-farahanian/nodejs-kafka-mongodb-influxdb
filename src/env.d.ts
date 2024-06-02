@@ -19,7 +19,6 @@ declare global {
     data: [] | {} | null;
     pagination?: {
       limit: number;
-      offset: number;
       currentPage: number;
       totalItems: number;
       totalPages: number;

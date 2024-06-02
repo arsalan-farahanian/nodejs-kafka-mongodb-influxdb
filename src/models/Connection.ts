@@ -16,8 +16,13 @@ interface IConnection {
 }
 
 interface ConnectionModel extends Model<IConnection> {
-  getConnections(userId: Types.ObjectId): Promise<{
+  getConnections(
+    userId: Types.ObjectId,
+    page: number,
+    limit: number
+  ): Promise<{
     connections: HydratedDocument<IConnection>[];
+    totalConnections: number;
   }>;
   newConnection(userId: Types.ObjectId): Promise<HydratedDocument<IConnection>>;
   deleteConnection(
@@ -54,12 +59,19 @@ const connectionSchema = new Schema<IConnection, ConnectionModel>(
 
 //retreiving all connections of a user
 connectionSchema.statics.getConnections = async function (
-  userId: Types.ObjectId
+  userId: Types.ObjectId,
+  page: number,
+  limit: number
 ) {
   const connections = await this.find({ user: userId })
     .populate("user", "id username")
+    .limit(limit)
+    .skip((page - 1) * limit)
+    .sort({ createdAt: -1 }) // sort descending by date
     .exec();
-  return { connections };
+
+  const totalConnections = await this.countDocuments();
+  return { connections, totalConnections };
 };
 
 connectionSchema.statics.newConnection = async function (

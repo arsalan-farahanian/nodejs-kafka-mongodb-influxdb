@@ -15,7 +15,7 @@ if (process.env.NODE_ENV.trim() === "development") {
   dotenv.config();
 }
 
-const SERVER_PORT = process.env.SERVER_PORT;
+const SERVER_PORT = Number(process.env.SERVER_PORT);
 const MONGODB_URI = process.env.MONGODB_URI;
 
 const SSL_KEY_PATH = process.env.SSL_KEY_PATH;

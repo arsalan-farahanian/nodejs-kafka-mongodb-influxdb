@@ -1,5 +1,7 @@
 import fs from "node:fs";
 import https from "node:https";
+import { fork, ForkOptions } from "node:child_process";
+import path from "node:path";
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
@@ -42,3 +44,9 @@ const server = https.createServer(credentials, app);
 server.listen(SERVER_PORT, () => {
   console.log(`Express running on PORT->${SERVER_PORT}`);
 });
+
+//this will run the kafka producer
+export const child1 = fork(path.join(__dirname, "processes", "child1.ts"));
+
+//this will run the kafka consumer and save the data to InfluxDB
+export const child2 = fork(path.join(__dirname, "processes", "child2.ts"));

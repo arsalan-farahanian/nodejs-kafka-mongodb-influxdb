@@ -13,6 +13,14 @@ declare global {
 
       //Kafka
       BROKERS: string;
+
+      //InfluxDB
+      INFLUX_HOST: string;
+      INFLUX_PORT: number;
+      INFLUX_PROTOCOL: "http" | "https";
+      INFLUX_USERNAME: string;
+      INFLUX_PASSWORD: string;
+      INFLUX_DATABASE_NAME: string;
     }
   }
 

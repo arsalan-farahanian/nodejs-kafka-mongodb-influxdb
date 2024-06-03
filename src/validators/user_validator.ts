@@ -1,4 +1,4 @@
-import { header, validationResult } from "express-validator";
+import { header, body, validationResult } from "express-validator";
 import { Request, Response, NextFunction } from "express";
 import { Types } from "mongoose";
 import User from "../models/User";
@@ -35,6 +35,43 @@ export const userIdValidator = [
           body: [
             {
               msg: "Invalid User ID",
+            },
+          ],
+        },
+      });
+    }
+
+    next();
+  },
+];
+
+export const userDataValidator = [
+  body("ts").exists().notEmpty().trim().escape().isInt(),
+  body("name")
+    .exists()
+    .notEmpty()
+    .trim()
+    .escape()
+    .isLength({ min: 3, max: 50 }),
+  body("value")
+    .exists()
+    .notEmpty()
+    .trim()
+    .escape()
+    .isLength({ min: 3, max: 300 }),
+  (req: Request, res: Response<JSONResponseFormat>, next: NextFunction) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({
+        success: false,
+        message: "Unprocessable entity",
+        data: null,
+        error: {
+          code: 422,
+          body: [
+            {
+              msg: "Invalid Data",
             },
           ],
         },

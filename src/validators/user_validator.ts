@@ -1,4 +1,4 @@
-import { header, body, validationResult } from "express-validator";
+import { header, body, query, validationResult } from "express-validator";
 import { Request, Response, NextFunction } from "express";
 import { Types } from "mongoose";
 import User from "../models/User";
@@ -72,6 +72,32 @@ export const userDataValidator = [
           body: [
             {
               msg: "Invalid Data",
+            },
+          ],
+        },
+      });
+    }
+
+    next();
+  },
+];
+
+export const userInfluxDataValidator = [
+  query("name").trim().escape().exists().notEmpty(),
+  query("start").trim().escape().exists().notEmpty(),
+  query("end").trim().escape().exists().notEmpty(),
+  (req: Request, res: Response<JSONResponseFormat>, next: NextFunction) => {
+    const error = validationResult(req);
+    if (!error.isEmpty()) {
+      return res.status(422).json({
+        success: false,
+        message: "Unprocessable entity",
+        data: null,
+        error: {
+          code: 422,
+          body: [
+            {
+              msg: "Invalid Queries",
             },
           ],
         },

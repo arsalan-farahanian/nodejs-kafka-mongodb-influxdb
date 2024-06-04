@@ -8,12 +8,15 @@ import {
 } from "../controllers/connections";
 
 //validators
-import { userDataValidator } from "../validators/user_validator";
+import {
+  userDataValidator,
+  userInfluxDataValidator,
+} from "../validators/user_validator";
 
 export default function () {
   // CURRENT ROUTE: /api/connections
 
-  router.get("/", connections_get);
+  router.get("/", userInfluxDataValidator, connections_get);
   router.post("/:connectionName", userDataValidator, connectionHandler_post);
 
   return router;

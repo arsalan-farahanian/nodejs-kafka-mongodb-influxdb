@@ -37,7 +37,7 @@ declare global {
     } | null;
     error?: {
       code: number;
-      body: [{ [keys: string]: string | number }];
+      body: [{ [keys: string]: string | number }] | null;
     };
   }
 

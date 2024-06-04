@@ -33,7 +33,7 @@ export async function connection_get(
       },
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 }
 
@@ -53,7 +53,7 @@ export async function connection_post(
       data: connection,
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 }
 
@@ -71,7 +71,7 @@ export async function connection_delete(
       data: null,
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 }
 
@@ -93,6 +93,6 @@ export async function connection_update(
       data: connection,
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 }

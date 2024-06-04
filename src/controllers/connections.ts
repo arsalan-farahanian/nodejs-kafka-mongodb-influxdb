@@ -42,6 +42,6 @@ export async function connections_get(
       data,
     });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 }

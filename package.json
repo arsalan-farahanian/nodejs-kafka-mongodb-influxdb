@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "dev": "SET NODE_ENV=development && nodemon --watch src --ext ts --exec  ts-node src/server.ts"
+    "dev": "SET NODE_ENV=development && nodemon --watch src --ext ts --exec  ts-node src/server.ts",
+    "script-test": "ts-node src/scripts/script-test.ts"
   },
   "keywords": [],
   "author": "Arsalan Farahanian",
@@ -19,6 +20,7 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "axios": "^1.7.2",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-validator": "^7.1.0",

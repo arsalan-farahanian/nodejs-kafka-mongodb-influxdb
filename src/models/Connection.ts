@@ -24,14 +24,19 @@ interface ConnectionModel extends Model<IConnection> {
     connections: HydratedDocument<IConnection>[];
     totalConnections: number;
   }>;
+
   newConnection(userId: Types.ObjectId): Promise<HydratedDocument<IConnection>>;
+
   deleteConnection(
     connectionName: string
   ): Promise<HydratedDocument<IConnection>>;
+
   updateConnection(
     connectionName: string,
     updateFields: { [key: string]: string | number | boolean }
   ): Promise<HydratedDocument<IConnection>>;
+
+  doesExist(connectionName: string): Promise<boolean>;
 }
 
 const connectionSchema = new Schema<IConnection, ConnectionModel>(
@@ -104,6 +109,16 @@ connectionSchema.statics.updateConnection = async function (
   return await this.findOneAndUpdate({ connectionName }, updateFields, {
     new: true, // this returns the document after update was applied
   });
+};
+
+connectionSchema.statics.doesExist = async function (connectionName: string) {
+  let doc = await this.exists({ connectionName });
+
+  if (doc === null) {
+    return false;
+  }
+
+  return true;
 };
 
 export default model<IConnection, ConnectionModel>(

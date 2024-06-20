@@ -5,7 +5,6 @@ import path from "node:path";
 import express from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import { writeData } from "./services/influx/queries";
 
 //loading Mongodb Models
 import "./models/User";
